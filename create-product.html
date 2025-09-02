@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Product - E-commerce Admin</title>
+    <link rel="stylesheet" href="./main.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-plus-circle"></i> Create New Product</h1>
+            <p>Add a new product with variants and attributes</p>
+        </header>
+
+        <form id="productForm" class="product-form">
+            <!-- Basic Product Information -->
+            <section class="form-section">
+                <h2><i class="fas fa-info-circle"></i> Basic Information</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="productName">Product Name *</label>
+                        <input type="text" id="productName" name="name" required placeholder="e.g., Nike Air Max 90">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productDescription">Description *</label>
+                        <textarea id="productDescription" name="description" required rows="3" placeholder="Product description..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productPrice">Base Price *</label>
+                        <input type="number" id="productPrice" name="price" step="0.01" min="0" required placeholder="29.99">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productCategory">Category *</label>
+                        <select id="productCategory" name="categoryId" required>
+                            <option value="">Select Category</option>
+                            <option value="1">Shoes</option>
+                            <option value="2">Clothing</option>
+                            <option value="3">Electronics</option>
+                            <option value="4">Accessories</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productBrand">Brand</label>
+                        <select id="productBrand" name="brandId">
+                            <option value="">Select Brand</option>
+                            <option value="1">Nike</option>
+                            <option value="2">Adidas</option>
+                            <option value="3">Apple</option>
+                            <option value="4">Samsung</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productStock">Total Stock *</label>
+                        <input type="number" id="productStock" name="totalNoOfStock" min="0" required placeholder="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productImages">Product Images</label>
+                        <input type="file" id="productImages" name="images" multiple accept="image/*">
+                        <div id="imagePreview" class="image-preview"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Attributes Section -->
+            <section class="form-section">
+                <h2><i class="fas fa-tags"></i> Product Attributes</h2>
+                <div class="attributes-container">
+                    <div class="attribute-creation-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="attributeName">Attribute Name *</label>
+                                <input type="text" id="attributeName" placeholder="e.g., Color, Size, Material" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="attributeValues">Attribute Values *</label>
+                                <input type="text" id="attributeValues" placeholder="e.g., Red, Blue, Green (comma separated)" required>
+                                <small class="help-text">Enter multiple values separated by commas</small>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="createAttribute()">
+                            <i class="fas fa-plus"></i> Create Attribute
+                        </button>
+                    </div>
+                    
+                    <div class="attributes-list">
+                        <h4><i class="fas fa-list"></i> Available Attributes</h4>
+                        <div id="availableAttributes" class="available-attributes-grid"></div>
+                    </div>
+                    
+                    <div class="attribute-selection">
+                        <h4><i class="fas fa-check-square"></i> Select Attributes for Product</h4>
+                        <div id="attributeSelection" class="attribute-selection-grid"></div>
+                    </div>
+                    
+                    <div id="selectedAttributes" class="selected-attributes"></div>
+                </div>
+            </section>
+
+            <!-- Variants Section -->
+            <section class="form-section">
+                <h2><i class="fas fa-layer-group"></i> Product Variants</h2>
+                <div class="variants-container">
+                    <div class="variant-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="variantSku">SKU *</label>
+                                <input type="text" id="variantSku" placeholder="e.g., TSHIRT-BLACK-L" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="variantName">Variant Name</label>
+                                <input type="text" id="variantName" placeholder="e.g., Black Large">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="variantPrice">Price (optional)</label>
+                                <input type="number" id="variantPrice" step="0.01" min="0" placeholder="29.99">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="variantStock">Stock *</label>
+                                <input type="number" id="variantStock" min="0" required placeholder="25">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="variantWeight">Weight (g)</label>
+                                <input type="number" id="variantWeight" min="0" placeholder="500">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="variantDimensions">Dimensions (LxWxH cm)</label>
+                                <input type="text" id="variantDimensions" placeholder="30x20x15">
+                            </div>
+                        </div>
+                        
+                        <div class="variant-attributes">
+                            <h4>Variant Attributes</h4>
+                            <div id="variantAttributeOptions" class="variant-attribute-options"></div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-primary" onclick="addVariant()">
+                            <i class="fas fa-plus"></i> Add Variant
+                        </button>
+                    </div>
+                    
+                    <div id="variantsList" class="variants-list"></div>
+                </div>
+            </section>
+
+            <!-- Form Actions -->
+            <section class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save"></i> Create Product
+                </button>
+            </section>
+        </form>
+
+        <!-- Success Modal -->
+        <div id="successModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-check-circle"></i> Success!</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Product created successfully!</p>
+                    <div id="productDetails" class="product-details"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="closeModal()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Creating product...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="./main.js"></script>
+</body>
+</html>
